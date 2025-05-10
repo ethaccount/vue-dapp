@@ -15,7 +15,7 @@ jobs:
             - uses: actions/setup-node@v3
               with:
                   node-version: 18
-            - uses: actions/cache@v2
+            - uses: actions/cache@v3
               with:
                   path: ~/.pnpm-store
                   key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
