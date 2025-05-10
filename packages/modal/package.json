@@ -1,6 +1,6 @@
 {
 	"name": "@vue-dapp/modal",
-	"version": "1.5.6",
+	"version": "1.5.7",
 	"description": "Empower dapp developers with Vue integration for crypto wallets",
 	"repository": "https://github.com/vu3th/vue-dapp",
 	"bugs": {
