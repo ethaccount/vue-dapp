@@ -44,30 +44,26 @@ export class BrowserWalletConnector extends Connector<EIP1193Provider, BrowserWa
 
 		let accounts, chainId
 
-		try {
-			if (timeout) {
-				accounts = await Promise.race([
-					provider.request({
-						method: 'eth_requestAccounts',
-					}),
-					new Promise<void>((_, reject) =>
-						setTimeout(() => {
-							reject(new Error('timeout'))
-						}, timeout),
-					),
-				])
-			} else {
-				accounts = await provider.request({
+		if (timeout) {
+			accounts = await Promise.race([
+				provider.request({
 					method: 'eth_requestAccounts',
-				})
-			}
-
-			chainId = (await provider.request({
-				method: 'eth_chainId',
-			})) as number
-		} catch (error: any) {
-			throw new Error(`Failed to request accounts${error.message ? ': ' + error.code + ' ' + error.message : ''}`)
+				}),
+				new Promise<void>((_, reject) =>
+					setTimeout(() => {
+						reject(new Error('timeout'))
+					}, timeout),
+				),
+			])
+		} else {
+			accounts = await provider.request({
+				method: 'eth_requestAccounts',
+			})
 		}
+
+		chainId = (await provider.request({
+			method: 'eth_chainId',
+		})) as number
 
 		this.#provider = provider
 
