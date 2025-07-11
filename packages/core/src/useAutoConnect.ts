@@ -1,6 +1,6 @@
 import { onMounted, ref } from 'vue'
 import { useConnect } from './services/connect'
-import { ConnectOptions, ProviderTarget, RdnsEnum } from './types'
+import { ConnectOptions, EIP1193Provider, ProviderTarget, RdnsEnum } from './types'
 import { useConnectors } from './services/connectors'
 import { getLastConnectedBrowserWallet } from './services/localStorage'
 import { isMobileBrowser, isWindowEthereumAvailable } from './utils'
@@ -46,23 +46,16 @@ export function useAutoConnect(pinia?: any) {
 				if (!lastRdns) return
 
 				/**
-				 * feat: Don't auto-connect to MetaMask if it's locked
-				 * issue#185: https://github.com/vu3th/vue-dapp/issues/185
+				 * Don't auto-connect if wallet is locked
+				 * issue: https://github.com/vu3th/vue-dapp/issues/185
 				 */
-
-				// if the wallet is MetaMask, check if it's unlocked
-				if (lastRdns === RdnsEnum.metamask) {
-					const { providerDetails } = useEIP6963()
-					const providerDetail = providerDetails.value.find(p => p.info.rdns === RdnsEnum.metamask)
-					if (providerDetail) {
-						const provider = providerDetail.provider
-						/**
-						 * isUnlocked - API Docs: https://docs.metamask.io/wallet/reference/provider-api/#_metamaskisunlocked
-						 * How to check if a web3 wallet is unlocked? - Stack Overflow: https://stackoverflow.com/questions/69015014/how-to-check-if-a-web3-wallet-is-unlocked
-						 */
-						// @ts-ignore
-						const isUnlocked = await provider._metamask.isUnlocked()
-						if (!isUnlocked) return
+				const { providerDetails } = useEIP6963()
+				const providerDetail = providerDetails.value.find(p => p.info.rdns === lastRdns)
+				if (providerDetail) {
+					const provider = providerDetail.provider
+					const unlocked = await isUnlocked(provider)
+					if (!unlocked) {
+						return
 					}
 				}
 
@@ -83,4 +76,16 @@ export function useAutoConnect(pinia?: any) {
 	}
 
 	return { isAutoConnecting, error }
+}
+
+export async function isUnlocked(provider: EIP1193Provider) {
+	let unlocked
+
+	try {
+		const accounts = await provider.request({ method: 'eth_accounts' })
+		unlocked = accounts.length > 0
+	} catch (e) {
+		unlocked = false
+	}
+	return unlocked
 }

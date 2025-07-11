@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { CoinbaseWalletConnector } from '@vue-dapp/coinbase'
 import { BrowserWalletConnector, useVueDapp, type ConnWallet } from '@vue-dapp/core'
 import { VueDappModal } from '@vue-dapp/modal'
 import '@vue-dapp/modal/dist/style.css'
 import { WalletConnectConnector } from '@vue-dapp/walletconnect'
-import { CoinbaseWalletConnector } from '@vue-dapp/coinbase'
 
 import { darkTheme, lightTheme, type GlobalThemeOverrides } from 'naive-ui'
 import { useAppStore } from './stores/appStore'
