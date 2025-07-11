@@ -1,6 +1,6 @@
 {
 	"name": "@vue-dapp/nuxt",
-	"version": "1.5.7",
+	"version": "1.5.8",
 	"description": "Vue Dapp Nuxt module",
 	"repository": "https://github.com/vu3th/vue-dapp",
 	"bugs": {
