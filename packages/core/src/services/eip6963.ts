@@ -5,7 +5,7 @@ import { useStore } from '../store'
 export function useEIP6963(pinia?: any) {
 	const store = useStore(pinia)
 
-	let listener: (event: EIP6963AnnounceProviderEvent) => void
+	let listener: (event: EIP6963AnnounceProviderEvent) => void = () => {}
 
 	function subscribe() {
 		const listener = (event: EIP6963AnnounceProviderEvent) => {
