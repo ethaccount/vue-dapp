@@ -38,7 +38,7 @@
 	"scripts": {
 		"build": "vite build",
 		"watch": "vite build --watch",
-		"test": "vitest",
+		"test": "vitest --run",
 		"typecheck": "vue-tsc --noEmit --skipLibCheck"
 	},
 	"devDependencies": {
