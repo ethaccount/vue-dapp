@@ -1,7 +1,7 @@
 import { computed, markRaw, readonly } from 'vue'
+import { ConnectorNotFoundError } from '../errors'
 import { useStore } from '../store'
 import { ConnectOptions, ConnectorName } from '../types'
-import { ConnectorNotFoundError } from '../errors'
 import { isWindowEthereumAvailable, normalizeChainId } from '../utils'
 import { removeLastConnectedBrowserWallet, setLastConnectedBrowserWallet } from './localStorage'
 
@@ -38,7 +38,8 @@ export function useConnect(pinia?: any) {
 
 			walletStore.wallet.connector = connector
 			walletStore.wallet.connectorName = connector.name as ConnectorName
-			walletStore.wallet.provider = provider
+			// Mark provider as raw
+			walletStore.wallet.provider = markRaw(provider)
 			walletStore.wallet.address = account
 			walletStore.wallet.chainId = normalizeChainId(chainId)
 
