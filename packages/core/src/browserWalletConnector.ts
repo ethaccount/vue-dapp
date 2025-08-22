@@ -1,23 +1,23 @@
 import {
-	Connector,
-	NetworkDetails,
-	AddERC20TokenOptions,
-	EIP1193Provider,
-	ConnectOptions,
-	RDNS,
-	EIP6963ProviderDetail,
-	ProviderTarget,
-	EIP6963ProviderInfo,
-} from './types'
-import {
 	AddChainError,
-	ProviderRpcError,
 	ProviderNotFoundError,
-	UserRejectedRequestError,
+	ProviderRpcError,
 	SwitchChainError,
+	UserRejectedRequestError,
 } from './errors'
-import { normalizeChainId, toHex } from './utils'
 import { useEIP6963 } from './services/eip6963'
+import {
+	AddERC20TokenOptions,
+	ConnectOptions,
+	Connector,
+	EIP1193Provider,
+	EIP6963ProviderDetail,
+	EIP6963ProviderInfo,
+	NetworkDetails,
+	ProviderTarget,
+	RDNS,
+} from './types'
+import { normalizeChainId, toHex } from './utils'
 
 export type BrowserWalletConnectorOptions = {
 	appUrl?: string
@@ -63,14 +63,16 @@ export class BrowserWalletConnector extends Connector<EIP1193Provider, BrowserWa
 
 		chainId = (await provider.request({
 			method: 'eth_chainId',
-		})) as number
+		})) as string
+
+		const chainIdNumber = normalizeChainId(chainId)
 
 		this.#provider = provider
 
 		return {
 			provider: this.#provider,
 			account: accounts[0],
-			chainId,
+			chainId: chainIdNumber,
 			info,
 		}
 	}
