@@ -9,6 +9,7 @@
 		"sourceMap": true,
 		"resolveJsonModule": true,
 		"lib": ["esnext", "dom"],
+		"types": ["vitest/globals"],
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
 	"references": [{ "path": "./tsconfig.node.json" }],

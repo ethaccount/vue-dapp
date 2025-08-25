@@ -1,6 +1,6 @@
 {
 	"name": "@vue-dapp/coinbase",
-	"version": "1.5.8",
+	"version": "1.5.9-beta.0",
 	"description": "Empower dapp developers with Vue integration for crypto wallets",
 	"repository": "https://github.com/vu3th/vue-dapp",
 	"bugs": {
